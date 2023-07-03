@@ -1,5 +1,5 @@
 const { GraphQLObjectType , GraphQLSchema} = require("graphql")
-const  {AllClients , ClientById } = require ('./ClientSchema')
+const  {AllClients , ClientById , addCleint } = require ('./ClientSchema')
 const  {AllProjects , ProjectById } = require('./ProjectSchema')
 const RootQuery = new GraphQLObjectType({
     name: "RootQuery",
@@ -14,8 +14,16 @@ const RootQuery = new GraphQLObjectType({
 
 })
 
+const RootMutation = new GraphQLObjectType({
+    name: "mutation",
+    fields : {
+        addClient : addCleint
+    }
+})
+
 const schema = new GraphQLSchema({
-    query : RootQuery
+    query : RootQuery,
+    mutation: RootMutation
 })
 
 module.exports = schema

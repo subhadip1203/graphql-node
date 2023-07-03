@@ -1,6 +1,7 @@
 const { GraphQLObjectType, GraphQLID, GraphQLString , GraphQLList } = require("graphql");
 const {ClientType} = require('./ClientSchema')
-
+const {findProjectById, findAllProjects} = require('../database/project/project_db_schema')
+const {findClientById} = require('../database/client/client_db_schema')
 
 const ProjectType = new GraphQLObjectType({
     name: "Project",
@@ -12,7 +13,7 @@ const ProjectType = new GraphQLObjectType({
         client : { 
             type : ClientType,
             resolve(parent, args) {
-                return { id: 1, name: "user", email: "subhadip@gmail.com" };
+                return findClientById(parent.clientId);
             },
         }
     }),
@@ -22,18 +23,14 @@ const ProjectById = {
     type: ProjectType,
     args: { id: { type: GraphQLID } },
     resolve(parent, args) {
-        return { id: 1, name: "project", description: "project description" , status : "ongoing" };
+        return findProjectById(args.id);
     },
 };
 
 const AllProjects = {
     type: new GraphQLList(ProjectType),
-    args: { id: { type: GraphQLID } },
     resolve(parent, args) {
-        return [
-            { id: 1, name: "project1", description: "project description 1" , status : "ongoing" },
-            { id: 1, name: "project2", description: "project description 2" , status : "ongoing" }
-        ];
+        return findAllProjects()
     },
 };
 

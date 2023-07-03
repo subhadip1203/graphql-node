@@ -2,6 +2,9 @@ require('dotenv').config()
 const express = require("express")
 const { graphqlHTTP } = require("express-graphql")
 
+// --------- Database --------
+const DB_Connect = require('./app/database/dbConnect')
+DB_Connect()
 
 const schema = require('./app/schema/RootQuery')
 
